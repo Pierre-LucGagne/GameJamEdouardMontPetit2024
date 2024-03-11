@@ -43,6 +43,12 @@ public class FirstPersonController : MonoBehaviour
 
     float rotationX;
     float rotationY;
+
+    [Header("Interaction")]
+    [Range(.15f, 1.5f)]
+    [SerializeField] float rayLength = .5f;
+    [SerializeField] InteractableObject interactableObject;
+
     [Space(15)]
 
     [Header("Input")]
@@ -79,7 +85,34 @@ public class FirstPersonController : MonoBehaviour
     void FixedUpdate()
     {
         // Call Functions
+        CheckForInteraction();
         MovePlayer();
+    }
+
+    // Interaction
+    // ----------------------
+
+    void CheckForInteraction()
+    {
+        // Create Ray Cast
+        Ray ray = new Ray(cam.position, cam.forward);
+        RaycastHit hit;
+
+        // Ray Cast Conditions
+        if(Physics.Raycast(ray, out hit, rayLength))
+        {
+            // Set Values
+            GameObject hitObject = hit.transform.gameObject;
+
+            if(hitObject.GetComponent<InteractableObject>() != null)
+            interactableObject = hitObject.GetComponent<InteractableObject>();
+
+            else
+            interactableObject = null;
+        }
+
+        else
+        interactableObject = null;
     }
 
     // Movement Functions
@@ -95,9 +128,6 @@ public class FirstPersonController : MonoBehaviour
         rotationY += lookX;
         
         rotationX = Math.Clamp(rotationX, settings.player.lowestXAxis, settings.player.highestXAxis);
-
-        Debug.Log(rotationX);
-        Debug.Log(rotationY);
 
         // Set Camera Rotation
         cam.rotation = Quaternion.Euler(rotationX, rotationY, 0);
@@ -124,6 +154,16 @@ public class FirstPersonController : MonoBehaviour
     // Player Input
     // ----------------------
 
+    public void OnInteract()
+    {
+        // Interact with Object if currently looking at one
+        if(interactableObject != null)
+        {
+            interactableObject.gameObject.SetActive(false);
+            interactableObject = null;
+        }
+    }
+
     public void OnMove(InputValue value)
     {
         // Set Values
@@ -134,5 +174,18 @@ public class FirstPersonController : MonoBehaviour
     {
         // Set Values
         input.lookPos = value.Get<Vector2>();
+    }
+
+    // VVV Change Code if you have Time VVV
+    public void OnRun(InputValue value)
+    {
+        // Set Values
+        float floatValue = value.Get<float>();
+
+        if(floatValue > 0)
+        input.running = true;
+
+        else
+        input.running = false;
     }
 }

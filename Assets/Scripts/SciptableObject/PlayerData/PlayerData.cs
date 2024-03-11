@@ -10,7 +10,16 @@ public class PlayerData : ScriptableObject
     // Class
     // ----------------------
 
+    [System.Serializable]
+    public class Item
+    {
+        public string name;
+        public int count;
+    }
+
     // ----------------------
     // Variables
     // ----------------------
+
+    public List<Item> items;
 }

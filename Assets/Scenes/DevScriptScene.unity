@@ -564,6 +564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d893d9aaa087c1c4aa89336046875a06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: c89da90dab458fd42967b0e603e2e563, type: 2}
   settings: {fileID: 11400000, guid: 2ef2787a2a47e8148bdb270f65034d71, type: 2}
   cam: {fileID: 16943811}
   orientation: {fileID: 865046453}

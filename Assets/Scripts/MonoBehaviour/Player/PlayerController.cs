@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using DG.Tweening;
 using UnityEngine;
 
-public class FirstPersonController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     // ----------------------
     // Class
@@ -28,6 +28,7 @@ public class FirstPersonController : MonoBehaviour
     // ----------------------
 
     [Header("Player Controller")]
+    [SerializeField] PlayerData data;
     [SerializeField] Settings settings;
     [Space(15)]
 

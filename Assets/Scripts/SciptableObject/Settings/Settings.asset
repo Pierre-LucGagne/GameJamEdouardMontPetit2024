@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2134f4e615e56e24582b3156effbe81b, type: 3}
+  m_Name: Settings
+  m_EditorClassIdentifier: 
+  player:
+    sensY: 20
+    sensX: 20
+    lowestXAxis: -90
+    highestXAxis: 90
+  audio:
+    mixer: {fileID: 24100000, guid: 7b0f96099acca794b80778213d62be5d, type: 2}
+    masterV: 0
+    sfxV: 0
+    musicV: 0
+    voiceV: 0

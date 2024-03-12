@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine;
+using DG.Tweening;
 
 public class MenuScript : MonoBehaviour
 {
@@ -23,9 +24,15 @@ public class MenuScript : MonoBehaviour
     // ----------------------
     // Variables
     // ----------------------
+    CanvasGroup currentCanvas;
+    CanvasGroup nextCanvas;
 
     [Header("Menu")]
     [SerializeField] Settings settings;
+    [Space(10)]
+
+    [SerializeField] CanvasGroup startCanvas;
+    [SerializeField] float transitionTime;
     [Space(15)]
 
     [SerializeField] AudioSettings audioSettings;
@@ -40,6 +47,8 @@ public class MenuScript : MonoBehaviour
 
         // Call Functions
         ApplySettings();
+
+        SetTransitionValues(startCanvas);
     }
 
     void ApplySettings()
@@ -69,6 +78,41 @@ public class MenuScript : MonoBehaviour
     {
         // Call Quit Game In LevelManager
         LevelManager.instance.StartCoroutine("QuitGame");
+    }
+
+    // Canvas Transition
+    // ----------------------
+
+    public void SetTransitionValues(CanvasGroup newCanvas)
+    {
+        // Set Values
+        nextCanvas = newCanvas;
+
+        // Call Functions
+        StartCoroutine(MenuTransition());
+    }
+
+    IEnumerator MenuTransition()
+    {
+        // Animate Current Canvas
+        if(currentCanvas)
+        {
+            currentCanvas.interactable = false;
+            currentCanvas.blocksRaycasts = false;
+            currentCanvas.DOFade(0, transitionTime);
+
+            yield return new WaitForSeconds(transitionTime);
+        }
+
+        // Animate New Canvas
+        nextCanvas.DOFade(1, transitionTime);
+
+        yield return new WaitForSeconds(transitionTime);
+
+        // Set Values
+        nextCanvas.interactable = true;
+        nextCanvas.blocksRaycasts = true;
+        currentCanvas = nextCanvas;
     }
 
     // Settings
@@ -105,6 +149,4 @@ public class MenuScript : MonoBehaviour
             settings.audio.mixer.SetFloat("voiceV", Mathf.Log10(settings.audio.voiceV) * 20);
         }
     }
-
-
 }

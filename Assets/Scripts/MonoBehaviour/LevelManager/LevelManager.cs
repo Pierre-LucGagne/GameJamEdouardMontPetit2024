@@ -78,7 +78,6 @@ public class LevelManager : MonoBehaviour
         blackLoadingCanvas.group.alpha = 0;
         blackLoadingCanvas.group.DOFade(1, blackLoadingCanvas.fadeDuration).SetEase(Ease.InOutCirc);
 
-
         // Wait For ???
         yield return new WaitForSeconds(blackLoadingCanvas.fadeDuration);
 

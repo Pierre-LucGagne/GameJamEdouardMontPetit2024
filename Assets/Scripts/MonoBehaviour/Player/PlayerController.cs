@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
-using UnityEngine.Events;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine;
@@ -15,9 +14,16 @@ public class PlayerController : MonoBehaviour
     // ----------------------
 
     [System.Serializable]
-    public class ModaleSettings
+    public class RewindWeaponAnimation
     {
+        public GameObject gameObject;
+        [Header("Rewind Animation")]
+        public float shakePower;
+        public float shakeDuration;
+        [Space(5)]
 
+        public float nextYPos;
+        public float movementDuration;
     }
 
     [System.Serializable]
@@ -97,6 +103,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float rayLength = .5f;
     [SerializeField] InteractableObject interactableObject;
 
+    [Header("Rewind PowerUP")]
+    bool hasWeapon;
+    [SerializeField] float weaponReach;
+    [SerializeField] Rewindable rewindableObject;
+    [Space(5)]
+
+    [SerializeField] RewindWeaponAnimation weaponAnimation;
+
     [Header("UI Settings")]
     [SerializeField] Notifications notifCanvas;
     [SerializeField] OpenPage modalePage;
@@ -143,8 +157,9 @@ public class PlayerController : MonoBehaviour
     {
         // Call Functions
         CheckForInteraction();
-        Footstep();
+        CheckForRewindable();
         MovePlayer();
+        Footstep();
     }
 
     // Interaction
@@ -250,6 +265,10 @@ public class PlayerController : MonoBehaviour
             var instance = Instantiate(inventory.prefab);
             instance.transform.SetParent(inventory.canvas);
 
+            // If Item is ?
+            if(data.inventory[i].itemName == "rewind")
+            SetWeapon();
+
             // Set Values
             CanvasGroup group = instance.GetComponent<CanvasGroup>();
             Image sprite = instance.transform.Find("Background/Sprite").GetComponent<Image>();
@@ -272,6 +291,10 @@ public class PlayerController : MonoBehaviour
         // Create UI Element Inside the desired Canvas
         var instance = Instantiate(inventory.prefab);
         instance.transform.SetParent(inventory.canvas);
+
+        // If Item is ?
+        if(item.itemName == "rewind")
+        SetWeapon();
 
         // Set Values
         CanvasGroup group = instance.GetComponent<CanvasGroup>();
@@ -307,6 +330,40 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void SetWeapon()
+    {
+        Debug.Log("yes");
+
+        // Set Values
+        hasWeapon = true;
+
+        weaponAnimation.gameObject.SetActive(true);
+    }
+
+    void CheckForRewindable()
+    {
+        if(hasWeapon)
+        {
+            Ray ray = new Ray(cam.position, cam.forward);
+            RaycastHit hit;
+
+            // RayCast Conditions
+            if(Physics.Raycast(ray, out hit, weaponReach))
+            {
+                if(hit.transform.GetComponent<Rewindable>() != null)
+                {
+                    // Set Values
+                    rewindableObject = hit.transform.GetComponent<Rewindable>();
+
+                    return;
+                }
+            }
+        }
+
+        // Set Values
+        rewindableObject = null;
+    }
+
     bool CheckInventory(string itemName)
     {
         for(int i = 0;i < data.inventory.Count;i++)
@@ -325,6 +382,29 @@ public class PlayerController : MonoBehaviour
 
         // Destroy Given Object
         Destroy(gameObject);
+    }
+
+    // Weapon Functions
+    // ----------------------
+
+    IEnumerator RewindShoot()
+    {
+        if(!rewindableObject.alreadyRewinded)
+        {
+            // Set Values
+            Rewindable currentObject = rewindableObject;
+            currentObject.alreadyRewinded = true;
+
+            // Shake Object
+            currentObject.transform.DOShakePosition(weaponAnimation.shakeDuration, weaponAnimation.shakePower);
+            currentObject.transform.DOShakeRotation(weaponAnimation.shakeDuration, weaponAnimation.shakePower * 50);
+
+            yield return new WaitForSeconds(weaponAnimation.shakeDuration);
+
+            // Move Object Upward
+            float newYPos = currentObject.transform.position.y + weaponAnimation.nextYPos;
+            currentObject.transform.DOMoveY(newYPos, weaponAnimation.movementDuration).SetEase(Ease.InExpo);
+        }
     }
 
     // Movement Functions
@@ -410,6 +490,13 @@ public class PlayerController : MonoBehaviour
             else
             notifCanvas.SetValues(interactableObject.cantInteractMessage);
         }
+    }
+
+    public void OnFire()
+    {
+        if(rewindableObject)
+        StartCoroutine(RewindShoot());
+        
     }
 
     public void OnMove(InputValue value)

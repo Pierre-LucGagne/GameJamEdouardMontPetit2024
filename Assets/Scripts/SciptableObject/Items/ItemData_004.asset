@@ -9,8 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e4a7219a0792f344bcbe517e441944a, type: 3}
-  m_Name: PlayerData
+  m_Script: {fileID: 11500000, guid: 8639cf5df632f0641b33dfdb0b50ad40, type: 3}
+  m_Name: ItemData_004
   m_EditorClassIdentifier: 
-  inventory:
-  - {fileID: 11400000, guid: 6b9cbe456c1ae5b47b525ac4d802ed2b, type: 2}
+  itemName: batteryb
+  description: Batterie de couleur bleu.
+  ui:
+    sprite: {fileID: 21300000, guid: 404d1b80a6fac8840b788c9f1dc12e1e, type: 3}
+    name: Bleue

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8639cf5df632f0641b33dfdb0b50ad40, type: 3}
   m_Name: ItemData_001
   m_EditorClassIdentifier: 
-  itemName: byebye
-  description: 
+  itemName: rewind
+  description: "Permet d'inverser l'\xE9coulement du temps de l'object que l'on vise."
   ui:
-    sprite: {fileID: 21300000, guid: aad69a6360093e2489d03a2a2581aa01, type: 3}
-    name: Allo
+    sprite: {fileID: 21300000, guid: 6fa7bd5bfad550149bbec91f22fb0a8a, type: 3}
+    name: Reverse Gun

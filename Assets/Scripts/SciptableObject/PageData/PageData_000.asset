@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e4a7219a0792f344bcbe517e441944a, type: 3}
-  m_Name: PlayerData
+  m_Script: {fileID: 11500000, guid: 04b3945609c3389478f1878d0f0b5ee8, type: 3}
+  m_Name: PageData_000
   m_EditorClassIdentifier: 
-  inventory: []
+  title: Allo
+  text: Je voulais juste vous aviser que j'aime les pommes et jespere que toi aussi
+    si je vais venir te tuer durant ton sommeil.

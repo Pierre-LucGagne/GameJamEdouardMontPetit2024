@@ -12,12 +12,6 @@ public class RandomAudio : MonoBehaviour
     [SerializeField] AudioClip[] audios;
     [Space(10)]
 
-    [Range(.5f,3)]
-    [SerializeField] float minPitch = .75f;
-    [Range(.5f,3)]
-    [SerializeField] float maxPitch = 1.25f;
-    [Space(5)]
-
     [Range(0,1)]
     [SerializeField] float minVolume = .5f;
     [Range(0,1)]
@@ -58,13 +52,18 @@ public class RandomAudio : MonoBehaviour
 
     public void PlayAudio()
     {
-        // Set Values
-        source.clip = audios[RandomInt(0, audios.Length)];
+        if(audios.Length > 0)
+        {
+            // Set Values
+            source.clip = audios[RandomInt(0, audios.Length)];
 
-        source.volume = RandomFloat(minVolume, maxVolume);
-        source.pitch = RandomFloat(minPitch, maxPitch);
+            source.volume = RandomFloat(minVolume, maxVolume);
 
-        // Play Audio
-        source.Play();
+            // Play Audio
+            source.Play();
+        }
+
+        else
+        Debug.Log("Add Audio in : " + name + " RandomAudio Script.");
     }
 }

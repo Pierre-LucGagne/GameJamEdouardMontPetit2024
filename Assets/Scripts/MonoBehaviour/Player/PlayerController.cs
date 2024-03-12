@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine;
@@ -12,6 +13,12 @@ public class PlayerController : MonoBehaviour
     // ----------------------
     // Class
     // ----------------------
+
+    [System.Serializable]
+    public class ModaleSettings
+    {
+
+    }
 
     [System.Serializable]
     public class CursorSettings
@@ -91,6 +98,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] InteractableObject interactableObject;
 
     [Header("UI Settings")]
+    [SerializeField] Notifications notifCanvas;
+    [SerializeField] OpenPage modalePage;
     [SerializeField] CursorSettings cursor;
     [SerializeField] InventorySettings inventory;
 
@@ -118,7 +127,7 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
 
         // Call Functions
-        Invoke("SetInventory", 5);
+        SetInventory();
     }
 
     // Update Functions
@@ -255,14 +264,67 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void AddItem()
+    public void AddItem(ItemData item)
     {
+        // Add Item to List
+        data.inventory.Add(item);
 
+        // Create UI Element Inside the desired Canvas
+        var instance = Instantiate(inventory.prefab);
+        instance.transform.SetParent(inventory.canvas);
+
+        // Set Values
+        CanvasGroup group = instance.GetComponent<CanvasGroup>();
+        Image sprite = instance.transform.Find("Background/Sprite").GetComponent<Image>();
+        TextMeshProUGUI label = instance.transform.Find("Label").GetComponent<TextMeshProUGUI>();
+
+        // Set UI Element
+        group.alpha = 0;
+        group.DOFade(1, inventory.fadeDuration).SetEase(Ease.InOutCirc);
+          
+        sprite.sprite = item.ui.sprite;
+        label.text = item.ui.name;
     }
 
-    public void RemoveItem(string name)
+    public void RemoveItem(ItemData item)
     {
+        // Search Inside the Inventory
+        for(int i = 0;i < data.inventory.Count;i++)
+        {
+            if(data.inventory[i] == item)
+            {
+                // Remove From List
+                data.inventory.RemoveAt(i);
 
+                // Remove From UI Inventory
+                CanvasGroup uiElement = inventory.canvas.GetChild(i).GetComponent<CanvasGroup>();
+                uiElement.DOFade(0, inventory.fadeDuration).SetEase(Ease.InOutCirc);
+
+                StartCoroutine(DeleteObject(uiElement.transform.gameObject, inventory.fadeDuration));
+
+                return;
+            }
+        }
+    }
+
+    bool CheckInventory(string itemName)
+    {
+        for(int i = 0;i < data.inventory.Count;i++)
+        {
+            // Check If items match
+            if(itemName == data.inventory[i].itemName)
+            return true;
+        }
+
+        return false;
+    }
+
+    IEnumerator DeleteObject(GameObject gameObject, float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        // Destroy Given Object
+        Destroy(gameObject);
     }
 
     // Movement Functions
@@ -326,11 +388,27 @@ public class PlayerController : MonoBehaviour
 
     public void OnInteract()
     {
-        // Interact with Object if currently looking at one
-        if(interactableObject != null)
+        if(modalePage.modaleIsOpen)
+        modalePage.CloseModale();
+
+        else if(interactableObject != null)
         {
-            interactableObject.gameObject.SetActive(false);
-            interactableObject = null;
+            if(interactableObject.requiredItem == "" || CheckInventory(interactableObject.requiredItem))
+            {
+                if(interactableObject.interactOnce)
+                {
+                    if(!interactableObject.alreadyInteracted)
+                    interactableObject.interactAction.Invoke();
+                }
+
+                else
+                interactableObject.interactAction.Invoke();
+
+                interactableObject.alreadyInteracted = true;
+            }
+
+            else
+            notifCanvas.SetValues(interactableObject.cantInteractMessage);
         }
     }
 

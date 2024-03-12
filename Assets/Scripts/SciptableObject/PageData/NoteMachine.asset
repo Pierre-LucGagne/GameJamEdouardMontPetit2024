@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04b3945609c3389478f1878d0f0b5ee8, type: 3}
+  m_Name: NoteMachine
+  m_EditorClassIdentifier: 
+  title: "La derni\xE8re pi\xE8ce"
+  text: "Enfin, enfin, c\u2019est bient\xF4t termin\xE9.  \r\nJ\u2019ai \xE9t\xE9
+    prisonnier de ce boulot pendant tellement longtemps, je ne suis plus capable
+    et je suis tellement excit\xE9 de finalement quitter cet endroit. \xC7a m\u2019aura
+    cout\xE9 20 ans de ma vie, mais c\u2019est bon- Je l\u2019ai termin\xE9 : la
+    derni\xE8re pi\xE8ce pour la machine temporelle. Cette fois, c\u2019est la bonne,
+    je le sais. J\u2019ai \xE9t\xE9 tourment\xE9 par les bombardements au-dessus
+    de ma t\xEAte pendant si longtemps, j\u2019ai cru que j\u2019allais mourir, mais
+    la cl\xE9 de ma libert\xE9 est enfin entre mes mains. Je l\u2019ai mis dans la
+    salle de Storage principale, de l\u2019autre c\xF4t\xE9 de la porte \xE0 code
+    num\xE9rique. Reste plus qu\u2019\xE0 esp\xE9rer que rien de mal ne m\u2019arrive
+    d\u2019ici demain... "

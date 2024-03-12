@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04b3945609c3389478f1878d0f0b5ee8, type: 3}
+  m_Name: Generateur
+  m_EditorClassIdentifier: 
+  title: "GUIDE POUR R\xC9PARER LE G\xC9N\xC9RATEUR "
+  text: "Si le g\xE9n\xE9rateur ne fonctionne plus, Il y a deux options\u202F: soit
+    il manque d\u2019essence, soit un boulon a \xE9t\xE9 desserr\xE9 et le g\xE9n\xE9rateur
+    l\u2019a d\xE9tect\xE9, et donc s\u2019est arr\xEAter. Le g\xE9n\xE9rateur est
+    approvisionn\xE9 en essence par une source reli\xE9e \xE0 l\u2019ext\xE9rieur,
+    donc \xE0 moins d\u2019avoir une fuite, il est plus probable que ce soit la deuxi\xE8me
+    option. Si cela arrive, aidez-vous des lumi\xE8res d\u2019urgence et dirigez-vous
+    vers la salle de Storage 1, \xE0 coter de l\u2019entr\xE9e. Prenez la cl\xE9
+    \xE0 molette et utiliser-l\xE0 pour resserrer les boulons. Lorsque le g\xE9n\xE9rateur
+    sera r\xE9par\xE9, il devrait se r\xE9activer automatiquement. "

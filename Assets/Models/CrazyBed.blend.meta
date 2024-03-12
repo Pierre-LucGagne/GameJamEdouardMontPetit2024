@@ -3,7 +3,37 @@ guid: 70c4d9e5fc0502c4a82335de764e57a6
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Bed
+    second: {fileID: 2100000, guid: 49af89104fdfa3043a4e85cb722b2344, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BedFrame
+    second: {fileID: 2100000, guid: addaf758d8f65ad429d700a7695f2d37, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Black
+    second: {fileID: 2100000, guid: c76a802e6eac7344fb8114a7805657fe, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Strap
+    second: {fileID: 2100000, guid: d56a508ef6387664197c6e1688b1bc8e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: coussin
+    second: {fileID: 2100000, guid: fe98be6e5bc144749b76ec8e7a0902b6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material_0
+    second: {fileID: 2100000, guid: 2223f75db6b452a4d9656d0a17ed1b8e, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

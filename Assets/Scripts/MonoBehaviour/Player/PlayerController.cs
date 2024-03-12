@@ -99,6 +99,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("UI Settings")]
     [SerializeField] Notifications notifCanvas;
+    [SerializeField] OpenPage modalePage;
     [SerializeField] CursorSettings cursor;
     [SerializeField] InventorySettings inventory;
 
@@ -387,7 +388,10 @@ public class PlayerController : MonoBehaviour
 
     public void OnInteract()
     {
-        if(interactableObject != null)
+        if(modalePage.modaleIsOpen)
+        modalePage.CloseModale();
+
+        else if(interactableObject != null)
         {
             if(interactableObject.requiredItem == "" || CheckInventory(interactableObject.requiredItem))
             {

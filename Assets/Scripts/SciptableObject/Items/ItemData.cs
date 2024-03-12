@@ -23,6 +23,7 @@ public class ItemData : ScriptableObject
 
     [Header("Item Data")]
     public string itemName;
+    public GameObject prefab;
     [Space(5)]
 
     [TextArea(2, 4)]

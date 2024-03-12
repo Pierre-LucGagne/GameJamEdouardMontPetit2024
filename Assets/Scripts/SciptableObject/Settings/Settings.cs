@@ -12,16 +12,28 @@ public class Settings : ScriptableObject
     // ----------------------
 
     [System.Serializable]
+    public class QualitySettings
+    {
+
+    }
+
+    [System.Serializable]
     public class AudioSettings
     {
         public AudioMixer mixer;
         [Space(10)]
 
+        [Range(.0001f, 1)]
         public float masterV;
         [Space(5)]
         
+        [Range(.0001f, 1)]
         public float sfxV;
+        
+        [Range(.0001f, 1)]
         public float musicV;
+
+        [Range(.0001f, 1)]
         public float voiceV;
     }
 

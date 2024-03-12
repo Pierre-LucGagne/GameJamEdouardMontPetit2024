@@ -19,7 +19,7 @@ MonoBehaviour:
     highestXAxis: 90
   audio:
     mixer: {fileID: 24100000, guid: 7b0f96099acca794b80778213d62be5d, type: 2}
-    masterV: 0
-    sfxV: 0
-    musicV: 0
+    masterV: 0.38676423
+    sfxV: 0.6772918
+    musicV: 0.42831627
     voiceV: 0

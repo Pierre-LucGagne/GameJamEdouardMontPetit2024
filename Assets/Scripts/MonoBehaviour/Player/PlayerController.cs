@@ -72,7 +72,15 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;
 
     [SerializeField] float walkSpeed;
+    [SerializeField] float walkStepInterval;
+    [Space(5)]
+
     [SerializeField] float runSpeed;
+    [SerializeField] float runStepInterval;
+    [Space(10)]
+
+    [SerializeField] RandomAudio footstep;
+    float stepInterval;
 
     float rotationX;
     float rotationY;
@@ -126,6 +134,7 @@ public class PlayerController : MonoBehaviour
     {
         // Call Functions
         CheckForInteraction();
+        Footstep();
         MovePlayer();
     }
 
@@ -289,6 +298,26 @@ public class PlayerController : MonoBehaviour
 
         else
         rb.AddForce(moveDir * runSpeed, ForceMode.Impulse);
+    }
+
+    void Footstep()
+    {
+        // Set Values
+        if(input.movePos != Vector2.zero)
+        {
+            if(stepInterval <= 0)
+            {
+                footstep.PlayAudio();
+
+                if(input.running)
+                stepInterval += runStepInterval;
+
+                else
+                stepInterval += walkStepInterval;
+            }
+
+            stepInterval -= Time.fixedDeltaTime;
+        }
     }
 
     // ----------------------

@@ -72,8 +72,11 @@ public class PlayerController : MonoBehaviour
     // Variables
     // ----------------------
 
+    [HideInInspector]
+    public static PlayerController current;
+
     [Header("Player Controller")]
-    [SerializeField] PlayerData data;
+    public PlayerData data;
     [SerializeField] Settings settings;
     [Space(15)]
 
@@ -132,6 +135,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         // Set Values
+        current = this;
         rb = GetComponent<Rigidbody>();
 
         rotationX = cam.transform.rotation.x;

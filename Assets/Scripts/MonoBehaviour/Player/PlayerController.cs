@@ -2,14 +2,26 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
     // ----------------------
     // Class
     // ----------------------
+
+    [System.Serializable]
+    public class InventorySettings
+    {
+        public Transform canvas;
+        public GameObject prefab;
+        [Space(5)]
+
+        public float fadeDuration;
+    }
 
     [System.Serializable]
     public class InputReceiver
@@ -50,6 +62,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float rayLength = .5f;
     [SerializeField] InteractableObject interactableObject;
 
+    [Space(5)]
+    [SerializeField] InventorySettings inventory;
+
     [Space(15)]
 
     [Header("Input")]
@@ -72,6 +87,9 @@ public class PlayerController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        // Call Functions
+        SetInventory();
     }
 
     // Update Functions
@@ -114,6 +132,42 @@ public class PlayerController : MonoBehaviour
 
         else
         interactableObject = null;
+    }
+
+    // Inventory Functions
+    // ----------------------
+
+    void SetInventory()
+    {
+        // Instantiate All Items
+        for(int i = 0;i < data.inventory.Count;i++)
+        {
+            // Create UI Element Inside the desired Canvas
+            var instance = Instantiate(inventory.prefab);
+            instance.transform.SetParent(inventory.canvas);
+
+            // Set Values
+            CanvasGroup group = instance.GetComponent<CanvasGroup>();
+            Image sprite = instance.transform.Find("Background/Sprite").GetComponent<Image>();
+            TextMeshProUGUI label = instance.transform.Find("Label").GetComponent<TextMeshProUGUI>();
+
+            // Set UI Element
+            group.alpha = 0;
+            group.DOFade(1, inventory.fadeDuration).SetEase(Ease.InOutCirc);
+            
+            sprite.sprite = data.inventory[i].ui.sprite;
+            label.text = data.inventory[i].ui.name;
+        }
+    }
+
+    public void AddItem()
+    {
+
+    }
+
+    public void RemoveItem(string name)
+    {
+
     }
 
     // Movement Functions

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 using UnityEngine;
 
 public class InteractableObject : MonoBehaviour
@@ -13,9 +14,16 @@ public class InteractableObject : MonoBehaviour
     // ----------------------
 
     [Header("Interactable Object")]
-    [SerializeField] bool interactable = true;
+    public bool interactOnce;
+    public bool alreadyInteracted;
+    [Space(5)]
 
-    // ----------------------
-    // Functions
-    // ----------------------
+    public UnityEvent interactAction;
+    [Space(10)]
+
+    public string requiredItem;
+    [Space(5)]
+
+    [TextArea(1,3)]
+    public string cantInteractMessage;
 }

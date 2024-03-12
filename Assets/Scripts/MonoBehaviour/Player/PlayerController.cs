@@ -2,14 +2,46 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
     // ----------------------
     // Class
     // ----------------------
+
+    [System.Serializable]
+    public class CursorSettings
+    {
+        public Transform objectTrans;
+        [Space(5)]
+
+        public Color baseColor;
+        public Color hoverColor;
+        [Space(5)]
+
+        public Vector3 baseSize;
+        public Vector3 hoverSize;
+        [Space(5)]
+
+        public float transitionTime;
+
+        [HideInInspector]
+        public bool hovering;
+    }
+
+    [System.Serializable]
+    public class InventorySettings
+    {
+        public Transform canvas;
+        public GameObject prefab;
+        [Space(5)]
+
+        public float fadeDuration;
+    }
 
     [System.Serializable]
     public class InputReceiver
@@ -40,7 +72,15 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;
 
     [SerializeField] float walkSpeed;
+    [SerializeField] float walkStepInterval;
+    [Space(5)]
+
     [SerializeField] float runSpeed;
+    [SerializeField] float runStepInterval;
+    [Space(10)]
+
+    [SerializeField] RandomAudio footstep;
+    float stepInterval;
 
     float rotationX;
     float rotationY;
@@ -49,6 +89,10 @@ public class PlayerController : MonoBehaviour
     [Range(.15f, 1.5f)]
     [SerializeField] float rayLength = .5f;
     [SerializeField] InteractableObject interactableObject;
+
+    [Header("UI Settings")]
+    [SerializeField] CursorSettings cursor;
+    [SerializeField] InventorySettings inventory;
 
     [Space(15)]
 
@@ -72,6 +116,9 @@ public class PlayerController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        // Call Functions
+        Invoke("SetInventory", 5);
     }
 
     // Update Functions
@@ -87,6 +134,7 @@ public class PlayerController : MonoBehaviour
     {
         // Call Functions
         CheckForInteraction();
+        Footstep();
         MovePlayer();
     }
 
@@ -106,14 +154,115 @@ public class PlayerController : MonoBehaviour
             GameObject hitObject = hit.transform.gameObject;
 
             if(hitObject.GetComponent<InteractableObject>() != null)
-            interactableObject = hitObject.GetComponent<InteractableObject>();
+            {
+                interactableObject = hitObject.GetComponent<InteractableObject>();
+                
+                if(!cursor.hovering)
+                StartCoroutine("ShowHoverInteraction");
+            }
 
             else
-            interactableObject = null;
+            {
+                // Set Values
+                interactableObject = null;
+
+                // Call Functions
+                if(cursor.hovering)
+                StartCoroutine("HideHoverInteraction");
+            }
         }
 
         else
-        interactableObject = null;
+        {
+            // Set Values
+            interactableObject = null;
+
+            // Call Functions
+            if(cursor.hovering)
+            StartCoroutine("HideHoverInteraction");
+        }
+    }
+
+    IEnumerator ShowHoverInteraction()
+    {
+        // Stop Coroutines
+        StopCoroutine("HideHoverInteraction");
+
+        // Set Values
+        cursor.hovering = true;
+
+        Image sprite = cursor.objectTrans.GetComponent<Image>();
+
+        cursor.objectTrans.localScale = cursor.baseSize;
+        sprite.color = cursor.baseColor;
+
+        // Play Animations
+        cursor.objectTrans.DOScale(cursor.hoverSize, cursor.transitionTime).SetEase(Ease.InOutCirc);
+        sprite.DOColor(cursor.hoverColor, cursor.transitionTime);
+
+        yield return new WaitForSeconds(cursor.transitionTime);
+
+        cursor.objectTrans.localScale = cursor.hoverSize;
+        sprite.color = cursor.hoverColor;
+    }
+
+    IEnumerator HideHoverInteraction()
+    {
+        // Stop Coroutines
+        StopCoroutine("ShowHoverInteraction");
+
+        // Set Values
+        cursor.hovering = false;
+
+        Image sprite = cursor.objectTrans.GetComponent<Image>();
+
+        cursor.objectTrans.localScale = cursor.hoverSize;
+        sprite.color = cursor.hoverColor;
+
+        // Play Animations
+        cursor.objectTrans.DOScale(cursor.baseSize, cursor.transitionTime).SetEase(Ease.InOutCirc);
+        sprite.DOColor(cursor.baseColor, cursor.transitionTime);
+
+        yield return new WaitForSeconds(cursor.transitionTime);
+
+        cursor.objectTrans.localScale = cursor.baseSize;
+        sprite.color = cursor.baseColor;
+    }
+
+    // Inventory Functions
+    // ----------------------
+
+    void SetInventory()
+    {
+        // Instantiate All Items
+        for(int i = 0;i < data.inventory.Count;i++)
+        {
+            // Create UI Element Inside the desired Canvas
+            var instance = Instantiate(inventory.prefab);
+            instance.transform.SetParent(inventory.canvas);
+
+            // Set Values
+            CanvasGroup group = instance.GetComponent<CanvasGroup>();
+            Image sprite = instance.transform.Find("Background/Sprite").GetComponent<Image>();
+            TextMeshProUGUI label = instance.transform.Find("Label").GetComponent<TextMeshProUGUI>();
+
+            // Set UI Element
+            group.alpha = 0;
+            group.DOFade(1, inventory.fadeDuration).SetEase(Ease.InOutCirc);
+            
+            sprite.sprite = data.inventory[i].ui.sprite;
+            label.text = data.inventory[i].ui.name;
+        }
+    }
+
+    public void AddItem()
+    {
+
+    }
+
+    public void RemoveItem(string name)
+    {
+
     }
 
     // Movement Functions
@@ -149,6 +298,26 @@ public class PlayerController : MonoBehaviour
 
         else
         rb.AddForce(moveDir * runSpeed, ForceMode.Impulse);
+    }
+
+    void Footstep()
+    {
+        // Set Values
+        if(input.movePos != Vector2.zero)
+        {
+            if(stepInterval <= 0)
+            {
+                footstep.PlayAudio();
+
+                if(input.running)
+                stepInterval += runStepInterval;
+
+                else
+                stepInterval += walkStepInterval;
+            }
+
+            stepInterval -= Time.fixedDeltaTime;
+        }
     }
 
     // ----------------------

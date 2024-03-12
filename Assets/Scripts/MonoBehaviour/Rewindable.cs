@@ -1,9 +1,13 @@
+using UnityEngine.Events;
 using UnityEngine;
 
 public class Rewindable : MonoBehaviour
 {
-    // There Is Nothing to see here
+    // ----------------------
+    // Variables
+    // ----------------------
 
     [HideInInspector]
     public bool alreadyRewinded;
+    public UnityEvent action;
 }

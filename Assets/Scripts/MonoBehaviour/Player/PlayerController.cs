@@ -394,6 +394,7 @@ public class PlayerController : MonoBehaviour
             // Set Values
             Rewindable currentObject = rewindableObject;
             currentObject.alreadyRewinded = true;
+            currentObject.action.Invoke();
 
             // Shake Object
             currentObject.transform.DOShakePosition(weaponAnimation.shakeDuration, weaponAnimation.shakePower);

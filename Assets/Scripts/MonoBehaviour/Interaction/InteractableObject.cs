@@ -8,11 +8,6 @@ public class InteractableObject : MonoBehaviour
     // Class
     // ----------------------
 
-    public enum RequiredObject
-    {
-
-    }
-    
     // ----------------------
     // Variables
     // ----------------------

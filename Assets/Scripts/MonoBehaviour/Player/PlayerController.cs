@@ -14,6 +14,26 @@ public class PlayerController : MonoBehaviour
     // ----------------------
 
     [System.Serializable]
+    public class CursorSettings
+    {
+        public Transform objectTrans;
+        [Space(5)]
+
+        public Color baseColor;
+        public Color hoverColor;
+        [Space(5)]
+
+        public Vector3 baseSize;
+        public Vector3 hoverSize;
+        [Space(5)]
+
+        public float transitionTime;
+
+        [HideInInspector]
+        public bool hovering;
+    }
+
+    [System.Serializable]
     public class InventorySettings
     {
         public Transform canvas;
@@ -62,7 +82,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float rayLength = .5f;
     [SerializeField] InteractableObject interactableObject;
 
-    [Space(5)]
+    [Header("UI Settings")]
+    [SerializeField] CursorSettings cursor;
     [SerializeField] InventorySettings inventory;
 
     [Space(15)]
@@ -89,7 +110,7 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
 
         // Call Functions
-        SetInventory();
+        Invoke("SetInventory", 5);
     }
 
     // Update Functions
@@ -124,14 +145,79 @@ public class PlayerController : MonoBehaviour
             GameObject hitObject = hit.transform.gameObject;
 
             if(hitObject.GetComponent<InteractableObject>() != null)
-            interactableObject = hitObject.GetComponent<InteractableObject>();
+            {
+                interactableObject = hitObject.GetComponent<InteractableObject>();
+                
+                if(!cursor.hovering)
+                StartCoroutine("ShowHoverInteraction");
+            }
 
             else
-            interactableObject = null;
+            {
+                // Set Values
+                interactableObject = null;
+
+                // Call Functions
+                if(cursor.hovering)
+                StartCoroutine("HideHoverInteraction");
+            }
         }
 
         else
-        interactableObject = null;
+        {
+            // Set Values
+            interactableObject = null;
+
+            // Call Functions
+            if(cursor.hovering)
+            StartCoroutine("HideHoverInteraction");
+        }
+    }
+
+    IEnumerator ShowHoverInteraction()
+    {
+        // Stop Coroutines
+        StopCoroutine("HideHoverInteraction");
+
+        // Set Values
+        cursor.hovering = true;
+
+        Image sprite = cursor.objectTrans.GetComponent<Image>();
+
+        cursor.objectTrans.localScale = cursor.baseSize;
+        sprite.color = cursor.baseColor;
+
+        // Play Animations
+        cursor.objectTrans.DOScale(cursor.hoverSize, cursor.transitionTime).SetEase(Ease.InOutCirc);
+        sprite.DOColor(cursor.hoverColor, cursor.transitionTime);
+
+        yield return new WaitForSeconds(cursor.transitionTime);
+
+        cursor.objectTrans.localScale = cursor.hoverSize;
+        sprite.color = cursor.hoverColor;
+    }
+
+    IEnumerator HideHoverInteraction()
+    {
+        // Stop Coroutines
+        StopCoroutine("ShowHoverInteraction");
+
+        // Set Values
+        cursor.hovering = false;
+
+        Image sprite = cursor.objectTrans.GetComponent<Image>();
+
+        cursor.objectTrans.localScale = cursor.hoverSize;
+        sprite.color = cursor.hoverColor;
+
+        // Play Animations
+        cursor.objectTrans.DOScale(cursor.baseSize, cursor.transitionTime).SetEase(Ease.InOutCirc);
+        sprite.DOColor(cursor.baseColor, cursor.transitionTime);
+
+        yield return new WaitForSeconds(cursor.transitionTime);
+
+        cursor.objectTrans.localScale = cursor.baseSize;
+        sprite.color = cursor.baseColor;
     }
 
     // Inventory Functions

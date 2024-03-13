@@ -26,4 +26,14 @@ public class InteractableObject : MonoBehaviour
 
     [TextArea(1,3)]
     public string cantInteractMessage;
+
+    // ----------------------
+    // Functions
+    // ----------------------
+
+    public void ChangeScene(string sceneName)
+    {
+        // Call Functions
+        LevelManager.instance.LoadAsyncScene(sceneName);
+    }
 }

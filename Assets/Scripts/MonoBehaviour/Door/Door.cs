@@ -7,7 +7,7 @@ public class Door : MonoBehaviour
     // ----------------------
     // Class
     // ----------------------
-    
+
     [System.Serializable]
     public class DoorAnimation
     {
@@ -20,10 +20,11 @@ public class Door : MonoBehaviour
     // ----------------------
 
     [Header("Door Settings")]
-    bool locked;
+    [SerializeField] bool locked;
     [Space(10)]
 
     [SerializeField] DoorAnimation trigger;
+    [SerializeField] RandomAudio open;
     Animator animator;
 
     // ----------------------
@@ -41,24 +42,20 @@ public class Door : MonoBehaviour
     {
         // Play Animation
         if(!locked && animator)
-        animator.SetTrigger(trigger.open);
-
-        else
-        Debug.Log("cant");
-
-        Debug.Log("bluh");
+        {
+            animator.SetTrigger(trigger.open);
+            open.PlayAudio();
+        }
     }
 
     void CloseDoor()
     {
         // Play Animation
         if(!locked && animator)
-        animator.SetTrigger(trigger.close);
-
-        else
-        Debug.Log("cant");
-
-        Debug.Log("dluh");
+        {
+            animator.SetTrigger(trigger.close);
+            open.PlayAudio();
+        }
     }
 
     public void UnlockDoor()

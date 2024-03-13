@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ItemData_005
   m_EditorClassIdentifier: 
   itemName: batteryg
+  prefab: {fileID: 5283938040436672305, guid: cc276571bf0196b40909c06210671057, type: 3}
   description: Batterie de couleur verte.
   ui:
     sprite: {fileID: 21300000, guid: 46d8573bab8051e4c9269e8817dd5fd8, type: 3}

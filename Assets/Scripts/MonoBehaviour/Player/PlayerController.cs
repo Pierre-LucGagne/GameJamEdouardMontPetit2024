@@ -102,7 +102,6 @@ public class PlayerController : MonoBehaviour
     float rotationY;
 
     [Header("Interaction")]
-    [Range(.15f, 1.5f)]
     [SerializeField] float rayLength = .5f;
     [SerializeField] InteractableObject interactableObject;
 
@@ -470,6 +469,15 @@ public class PlayerController : MonoBehaviour
     // ----------------------
     // Player Input
     // ----------------------
+
+    public void OnPause()
+    {
+        // Call Functions
+        LevelManager.instance.LoadAsyncScene("TitleScreen");
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
 
     public void OnInteract()
     {

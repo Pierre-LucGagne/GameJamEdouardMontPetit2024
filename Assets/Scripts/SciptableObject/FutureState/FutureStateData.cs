@@ -12,4 +12,14 @@ public class FutureStateData : ScriptableObject
 
     [Header("Future State")]
     public int stateIndex;
+
+    // ----------------------
+    // Functions
+    // ----------------------
+
+    public void AddIndex()
+    {
+        // Set Values
+        stateIndex++;
+    }    
 }

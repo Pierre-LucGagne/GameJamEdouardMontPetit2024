@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ItemData_006
   m_EditorClassIdentifier: 
   itemName: betteryy
+  prefab: {fileID: 3623782361944957483, guid: 942a6d44d9010a843bcc683b2bdd95e1, type: 3}
   description: Batterie de couleur jaune.
   ui:
     sprite: {fileID: 21300000, guid: e6e965dcd82d078439d27eec85a6cdfa, type: 3}

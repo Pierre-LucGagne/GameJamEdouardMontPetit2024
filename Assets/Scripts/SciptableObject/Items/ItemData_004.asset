@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ItemData_004
   m_EditorClassIdentifier: 
   itemName: batteryb
+  prefab: {fileID: 8806225488090573528, guid: 3a2605cf2a8af7940bd9e524ff3a43c4, type: 3}
   description: Batterie de couleur bleu.
   ui:
     sprite: {fileID: 21300000, guid: 404d1b80a6fac8840b788c9f1dc12e1e, type: 3}

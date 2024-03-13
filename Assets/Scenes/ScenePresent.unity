@@ -30210,6 +30210,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1513188469}
   - component: {fileID: 1513188468}
+  - component: {fileID: 1513188470}
   m_Layer: 0
   m_Name: Socket
   m_TagString: Untagged
@@ -30231,7 +30232,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whenCompleted:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1513188470}
+        m_TargetAssemblyTypeName: InteractableObject, Assembly-CSharp
+        m_MethodName: ChangeScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: End
+          m_BoolArgument: 0
+        m_CallState: 2
   acceptedObjects:
   - {fileID: 11400000, guid: 98a9c83d461e8e044a93db64f9ddaea5, type: 2}
   - {fileID: 11400000, guid: 5ccbef638fcc28b4eb482c59d3678836, type: 2}
@@ -30270,6 +30283,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1513188470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513188467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e89f9e7fea85c4e980595648d57ea8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactOnce: 0
+  alreadyInteracted: 0
+  interactAction:
+    m_PersistentCalls:
+      m_Calls: []
+  requiredItem: 
+  cantInteractMessage: 
 --- !u!1001 &1516789917
 PrefabInstance:
   m_ObjectHideFlags: 0
